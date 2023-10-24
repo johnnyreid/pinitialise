@@ -40,3 +40,6 @@ for pin in pins:
     logger.info("Initialisation completed for pin {}! \n", str(pin))
 
 logger.info("--- GPIO Initialisation completed at {current_time} ---", current_time=datetime.now().strftime("%H:%M:%S"))
+
+# Release pigpio resources
+pi.stop()
