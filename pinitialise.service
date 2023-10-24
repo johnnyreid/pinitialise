@@ -1,0 +1,10 @@
+[Unit]
+Description=Initialise GPIOs using the pigpio service
+After=pigpiod.service
+
+[Service]
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 /opt/pinitialise/initialiseGpios.py
+
+[Install]
+WantedBy=multi-user.target
