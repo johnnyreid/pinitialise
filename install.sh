@@ -4,8 +4,14 @@
 
 echo "Installing pinitialise and its dependencies...."
 
-# Install dependencies
-apt-get -y install python3-pigpio python3-loguru
+#update apt database
+apt-get update
+
+# Install dependencies including pigpio: https://abyz.me.uk/rpi/pigpio/python.html
+apt-get -y install python3-pigpio python3-pip
+
+#install loguru: https://github.com/Delgan/loguru
+pip install loguru
 
 #Start and enable the auto-start on boot
 systemctl enable pigpiod
@@ -13,20 +19,14 @@ systemctl start pigpiod
 
 # (Re)Install the pinitialise service
 if [ -f /etc/systemd/system/pinitialise.service ]; then
-    sudo systemctl stop pinitialise.service
-    sudo systemctl disable pinitialise.service
+    systemctl stop pinitialise.service
+    systemctl disable pinitialise.service
 fi
 
-sudo \cp -f ./pinitialise.service /etc/systemd/system/pinitialise.service
-
+cp -f ./pinitialise.service /etc/systemd/system/pinitialise.service
 
 #Start and enable the auto-start on boot
-sudo systemctl enable pinitialise.service
-sudo systemctl start pinitialise.service
-
-# Make the logs directory
-if [ ! -d /var/logs/pinitialise ]; then
-  sudo mkdir /var/logs/pinitialise
-fi
+systemctl enable pinitialise.service
+systemctl start pinitialise.service
 
 echo "Installation complete."
